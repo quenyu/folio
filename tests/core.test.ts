@@ -21,7 +21,12 @@ describe('portfolio content', () => {
   });
 
   it('keeps homepage project copy in the validated project records', () => {
-    expect(projects.map((project) => project.homeCopy.join(''))).toEqual([
+    expect(projects.map((project) => Object.keys(project.homeCopy))).toEqual([
+      ['lead', 'highlight', 'tail'],
+      ['lead', 'highlight', 'tail'],
+      ['lead', 'highlight', 'tail'],
+    ]);
+    expect(projects.map((project) => `${project.homeCopy.lead}${project.homeCopy.highlight}${project.homeCopy.tail}`)).toEqual([
       'Каталог аренды спецтехники: фильтры, карточки техники и заявка в одном понятном сценарии.',
       'Сайт specialty coffee: бренд-система, меню и быстрый предзаказ.',
       'Сайт кузовного центра: услуги, примеры работ и предварительная оценка по фото.',

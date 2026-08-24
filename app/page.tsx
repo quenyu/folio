@@ -37,7 +37,7 @@ export default function Home() {
             <h2 id="work-title">{'// selected work'}</h2>
             <div className="work-list">
               {projects.map((project) => {
-                const [lead, highlight, tail] = project.homeCopy;
+                const { lead, highlight, tail } = project.homeCopy;
                 return (
                   <article className="work-entry" key={project.slug}>
                     <div className="work-entry__heading">
