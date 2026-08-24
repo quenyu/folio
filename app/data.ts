@@ -58,7 +58,7 @@ const projectData: Project[] = [
     format: 'самостоятельный проект',
     scope: ['research', 'catalog UX', 'design system', 'Next.js', 'QA'],
     homeCopy: { lead: 'Каталог аренды спецтехники: ', highlight: 'фильтры, карточки техники и заявка', tail: ' в одном понятном сценарии.' },
-    summary: 'Сайт регионального сервиса аренды: каталог из 12 машин, подбор от задачи, detail pages и структурированная заявка.',
+    summary: 'Сайт регионального сервиса аренды: каталог из 12 машин, подбор техники под задачу, карточки техники и структурированная заявка.',
     context: 'Региональным заказчикам важно ещё до звонка понять, какая техника подходит, во что входит смена и от чего зависит подача. Проект собран как цельный B2B-продукт для Калуги и выездов по ЦФО.',
     problem: 'Большинство сайтов ниши смешивает SEO-текст, цены и повторяющиеся формы. Пользователь вынужден звонить до того, как сравнил модели, минимальный заказ и ограничения площадки.',
     audience: 'Прорабы, снабженцы, владельцы небольших производств и частные заказчики, которым нужно быстро подобрать машину под конкретную работу.',
@@ -185,8 +185,8 @@ export const profile = profileSchema.parse({
   role: 'Web designer + frontend developer',
   contacts: {
     github: { label: 'github.com/quenyu', href: 'https://github.com/quenyu' },
-    telegram: { label: 't.me/wqeqadas', href: 'https://t.me/wqeqadas' },
-    email: null,
+    telegram: { label: 'написать в Telegram', href: 'https://t.me/qweraocu' },
+    email: { label: 'mort.isaev@gmail.com', href: 'mailto:mort.isaev@gmail.com' },
   },
 });
 

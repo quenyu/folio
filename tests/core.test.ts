@@ -33,9 +33,9 @@ describe('portfolio content', () => {
     ]);
   });
 
-  it('does not invent an email contact', () => {
-    expect(profile.contacts.email).toBeNull();
-    expect(profile.contacts.telegram).toEqual({ label: 't.me/wqeqadas', href: 'https://t.me/wqeqadas' });
+  it('publishes only the owner-confirmed contacts', () => {
+    expect(profile.contacts.email).toEqual({ label: 'mort.isaev@gmail.com', href: 'mailto:mort.isaev@gmail.com' });
+    expect(profile.contacts.telegram).toEqual({ label: 'написать в Telegram', href: 'https://t.me/qweraocu' });
     expect(profile.contacts.github).toEqual({ label: 'github.com/quenyu', href: 'https://github.com/quenyu' });
   });
 
