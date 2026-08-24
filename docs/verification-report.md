@@ -4,17 +4,26 @@
 
 ## Автоматические проверки
 
-- `pnpm lint` — пройдено без warnings.
-- `pnpm typecheck` — пройдено.
-- `pnpm test` — 2 файла, 9/9 тестов.
-- `pnpm build` — успешный production build vinext.
+- pnpm lint — пройдено без warnings.
+- pnpm typecheck — пройдено.
+- pnpm test — 2 файла, 8/8 тестов.
+- pnpm build — успешная production-сборка vinext.
 
-## Браузер
+## Сверка с референсом
 
-Проверены ширины 360, 390, 768, 1024, 1440 и 1920px: горизонтального переполнения нет, семь основных секций присутствуют, заголовок и навигация доступны. Отдельно проверены все три case-study на 390 и 1440px: по шесть содержательных изображений, production-ссылка, корректный заголовок и отсутствие overflow.
+На viewport 1440×900 и референс, и финальная страница имеют main шириной 700px с левой координатой 362.5px, базовый кегль 15.5px, line-height 27.125px и фон rgb(4, 4, 6). Начало контента референса находится на 636.47px, начало selected work финальной страницы — на 630.33px.
 
-Проверены смена ASCII-композиции, выполнение команды `help`, пользовательская 404, sitemap, robots и manifest. Console errors/warnings: 0.
+Проверочные viewport-скриншоты сняты на 1920×1080, 1440×900, 390×844 и 360×800. На desktop shell равен 700px; на mobile поля равны 16px. Горизонтального переполнения нет ни на одном размере.
+
+## Функциональная проверка
+
+- Проверены click, Enter и Space у ASCII-кнопки.
+- Подтверждены четыре разные ASCII-композиции и все шесть акцентных тем.
+- На главной присутствуют ровно пять смысловых секций.
+- Все три case-study проверены на 390×844 и 1440×900: по шесть изображений, корректный h1, JetBrains Mono, status line, без декоративной browser chrome и без overflow.
+- Пользовательская 404 проверена.
+- Production console errors/warnings: 0/0.
 
 ## Ручные проверки исходного кода
 
-Reduced motion, contrast media queries, forced colors, focus-visible, skip link, alt-тексты, фиксированные размеры изображений, metadata и JSON-LD проверены по реализации.
+Проверены reduced motion, contrast media queries, forced colors, focus-visible, skip link, alt-тексты, фиксированные размеры изображений, metadata, Open Graph и JSON-LD.

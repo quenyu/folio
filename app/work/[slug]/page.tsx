@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProject, projects } from '../../data';
-import { StatusLine } from '../../interactive';
+import { DocumentStatus } from '../../home-interactive';
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -42,9 +42,9 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
     <>
       <a className="skip-link" href="#case-content">Перейти к содержанию</a>
       <header className="site-header case-header">
-        <Link className="terminal-id" href="/">[artem@portfolio]</Link>
+        <Link className="terminal-id" href="/" prefetch={false}>[artem@portfolio]</Link>
         <nav aria-label="Навигация по кейсу">
-          <Link href="/#work">← все работы</Link>
+          <Link href="/#work" prefetch={false}>← все работы</Link>
           <a href="#gallery">экраны</a>
           <a href="#result">итог</a>
         </nav>
@@ -62,7 +62,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
             <div><dt>role</dt><dd>{project.role}</dd></div>
             <div><dt>scope</dt><dd>{project.scope.join(' · ')}</dd></div>
           </dl>
-          <p className="case-disclosure">Самостоятельный концептуальный проект для демонстрации дизайна и разработки.</p>
+          <p className="case-disclosure">Исследование, структура, визуальная система и frontend выполнены Артёмом целиком; подробности и ограничения перечислены ниже.</p>
           <div className="case-actions">
             <a className="primary-link" href={project.liveUrl} target="_blank" rel="noreferrer">▸ открыть production ↗</a>
             <a href={project.githubUrl} target="_blank" rel="noreferrer">▸ GitHub ↗</a>
@@ -72,7 +72,6 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
         <section className="case-cover" aria-label="Обложка проекта">
           <div className="desktop-frame">
-            <span aria-hidden="true">● ● ●</span>
             <img src={project.cover.src} alt={project.cover.alt} width={project.cover.width} height={project.cover.height} />
           </div>
           <div className="mobile-frame">
@@ -161,15 +160,15 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
           </div>
         </section>
 
-        <Link className="next-project" href={`/work/${nextProject.slug}`}>
+        <Link className="next-project" href={`/work/${nextProject.slug}`} prefetch={false}>
           <span>следующий проект / {nextProject.index}</span>
           <strong>{nextProject.title}</strong>
           <span aria-hidden="true">→</span>
         </Link>
       </main>
 
-      <footer className="site-footer"><p>© 2026 Артём Исаев · Калуга</p><Link href="/#contact">обсудить проект →</Link></footer>
-      <StatusLine fallback={project.slug} />
+      <footer className="site-footer"><p>© 2026 Артём Исаев · Калуга</p><Link href="/#contact" prefetch={false}>обсудить проект →</Link></footer>
+      <DocumentStatus fallback={project.slug} />
     </>
   );
 }

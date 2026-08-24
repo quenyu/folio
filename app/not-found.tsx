@@ -9,7 +9,7 @@ export default function NotFound() {
 └──────────────┘`}</pre>
       <h1>Такого маршрута нет.</h1>
       <p>Похоже, ссылка устарела или в адресе есть опечатка.</p>
-      <Link className="primary-link" href="/">▸ вернуться в портфолио</Link>
+      <Link className="primary-link" href="/" prefetch={false}>▸ вернуться в портфолио</Link>
     </main>
   );
 }

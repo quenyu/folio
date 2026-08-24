@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { profile, projects } from '../app/data';
-import { calculateScrollProgress, completeCommand, nextAsciiIndex, parseCommand } from '../app/utils';
+import { process, profile, projects, services } from '../app/data';
+import { calculateScrollProgress, nextAsciiIndex } from '../app/utils';
 
 describe('portfolio content', () => {
   it('contains exactly three ordered, unique projects', () => {
@@ -19,17 +19,10 @@ describe('portfolio content', () => {
     expect(profile.email).toBeNull();
     expect(profile.telegram).toBe('https://t.me/wqeqadas');
   });
-});
 
-describe('terminal commands', () => {
-  it('normalizes and parses supported commands', () => {
-    expect(parseCommand('  WORK ')).toBe('work');
-    expect(parseCommand('matrix')).toBe('unknown');
-  });
-
-  it('autocompletes the first matching command', () => {
-    expect(completeCommand('ser')).toBe('services');
-    expect(completeCommand('xyz')).toBe('xyz');
+  it('keeps the homepage sections compact', () => {
+    expect(services).toHaveLength(4);
+    expect(process.map((step) => step[1])).toEqual(['research', 'structure', 'design', 'build + launch']);
   });
 });
 

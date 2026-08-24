@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Mono } from 'next/font/google';
+import { JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { profile } from './data';
 
-const mono = IBM_Plex_Mono({
+const mono = JetBrains_Mono({
   variable: '--font-mono',
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 

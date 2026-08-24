@@ -10,7 +10,7 @@
 
 ## Шрифт
 
-IBM Plex Mono загружается через Next.js Google Fonts. Семейство распространяется по SIL Open Font License 1.1.
+JetBrains Mono загружается через Next.js Google Fonts. Семейство распространяется по SIL Open Font License 1.1.
 
 ## Код
 
