@@ -6,7 +6,7 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'https://artem-isaev-portfolio.malafar-ida78755z0x.chatgpt.site');
+    : 'https://artem-isaev-portfolio.vercel.app');
 
 export default function robots(): MetadataRoute.Robots {
   return { rules: { userAgent: '*', allow: '/' }, sitemap: `${siteUrl}/sitemap.xml` };
