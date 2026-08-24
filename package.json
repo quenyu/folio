@@ -7,11 +7,15 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "clean:build": "node -e \"require('node:fs').rmSync('.next',{recursive:true,force:true})\"",
     "dev": "vinext dev",
+    "prebuild": "pnpm clean:build",
     "build": "vinext build",
+    "prebuild:vercel": "pnpm clean:build",
     "build:vercel": "next build",
     "start": "vinext start",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .vercel",
+    "pretypecheck": "pnpm clean:build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "qa": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"

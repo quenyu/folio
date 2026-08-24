@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { process, profile, projects, services } from '../app/data';
-import { accentThemes, asciiVariants, baseAscii } from '../app/home-interactive';
+import { accentThemes, asciiCoreVariants, asciiVariantNames, asciiVariants } from '../app/home-interactive';
 import { separators } from '../app/page';
 import { calculateScrollProgress, nextAsciiIndex } from '../app/utils';
 
@@ -11,20 +11,34 @@ describe('portfolio content', () => {
   });
 
   it('keeps every project connected to confirmed production and GitHub URLs', () => {
-    for (const project of projects) {
-      expect(project.liveUrl).toMatch(/^https:\/\/.*\.vercel\.app$/);
-      expect(project.githubUrl).toBe(`https://github.com/quenyu/${project.slug === 'techdelo-40' ? 'techdelo-40-demo' : project.slug === 'poluton' ? 'poluton-coffee-demo' : 'gran-auto'}`);
-    }
+    expect(projects.map(({ liveUrl, githubUrl }) => [liveUrl, githubUrl])).toEqual([
+      ['https://techdelo-40.vercel.app', 'https://github.com/quenyu/techdelo-40'],
+      ['https://poluton-coffee.vercel.app', 'https://github.com/quenyu/poluton-coffee'],
+      ['https://gran-auto.vercel.app', 'https://github.com/quenyu/gran-auto'],
+    ]);
+    expect(projects.every((project) => !project.liveUrl.includes('-demo') && !project.githubUrl.includes('-demo'))).toBe(true);
+    expect(projects.every((project) => project.format === 'самостоятельный проект')).toBe(true);
   });
 
   it('does not invent an email contact', () => {
-    expect(profile.email).toBeNull();
-    expect(profile.telegram).toBe('https://t.me/wqeqadas');
+    expect(profile.contacts.email).toBeNull();
+    expect(profile.contacts.telegram).toEqual({ label: 't.me/wqeqadas', href: 'https://t.me/wqeqadas' });
+    expect(profile.contacts.github).toEqual({ label: 'github.com/quenyu', href: 'https://github.com/quenyu' });
   });
 
-  it('keeps the homepage sections compact', () => {
-    expect(services).toHaveLength(4);
-    expect(process.map((step) => step[1])).toEqual(['research', 'structure', 'design', 'build + launch']);
+  it('uses concise, client-readable service and process copy', () => {
+    expect(services).toEqual([
+      ['01', 'Лендинг / корпоративный сайт', 'Исследую задачу, собираю структуру, создаю дизайн в Figma и готовый интерфейс для услуги или компании.'],
+      ['02', 'Редизайн и UX-структура', 'Проверяю существующий сайт, перестраиваю навигацию и аккуратно переношу полезный контент.'],
+      ['03', 'Frontend-реализация', 'Собираю быстрый и надёжный сайт с рабочими страницами, формами и интерактивными состояниями.'],
+      ['04', 'Адаптив и запуск', 'Проверяю сайт на основных экранах, исправляю ошибки и публикую готовую версию.'],
+    ]);
+    expect(process).toEqual([
+      ['01', 'research', 'Бизнес, аудитория, задача и ограничения.'],
+      ['02', 'structure', 'Структура сайта и путь пользователя.'],
+      ['03', 'design', 'Прототип, визуальная система и ключевые экраны.'],
+      ['04', 'build + launch', 'Адаптивная разработка, проверка и публикация.'],
+    ]);
   });
 
   it('uses the required accent order with muted coral as the default offset', () => {
@@ -37,15 +51,17 @@ describe('portfolio content', () => {
     expect(separators.cat).toBe(' /\\v/\\\n(=o.o=)\n (   )');
   });
 
-  it('keeps every ASCII variant rectangular with an intact core mask', () => {
-    const baseLines = baseAscii.split('\n');
-    expect(new Set(baseLines.map((line) => line.length))).toHaveLength(1);
-    for (const variant of asciiVariants) {
+  it('uses four distinct, named ASCII constructions with rectangular intact cores', () => {
+    expect(asciiVariantNames).toEqual(['heavy', 'stencil', 'outline', 'scanline']);
+    expect(new Set(asciiCoreVariants)).toHaveLength(4);
+    expect(asciiVariants).toHaveLength(4);
+    for (const [variantIndex, variant] of asciiVariants.entries()) {
       const lines = variant.split('\n');
-      expect(new Set(lines.map((line) => line.length))).toHaveLength(1);
-      expect(lines).toHaveLength(baseLines.length);
-      for (let index = 0; index < baseAscii.length; index += 1) {
-        if (baseAscii[index] !== ' ' && baseAscii[index] !== '\n') expect(variant[index]).not.toBe(' ');
+      const core = asciiCoreVariants[variantIndex];
+      expect(lines).toHaveLength(15);
+      expect(new Set(lines.map((line) => line.length))).toEqual(new Set([87]));
+      for (let index = 0; index < core.length; index += 1) {
+        if (core[index] !== ' ' && core[index] !== '\n') expect(variant[index]).not.toBe(' ');
       }
     }
   });

@@ -3,9 +3,9 @@ import { DocumentStatus, PortfolioAscii } from './home-interactive';
 import { process, profile, projects, services } from './data';
 
 const projectCopy = {
-  'techdelo-40': ['Каталог аренды спецтехники: ', 'фильтры, detail pages и заявка', ' в одном production-интерфейсе.'],
-  poluton: ['Сайт specialty coffee с бренд-системой, ', 'меню и предзаказом', ', доступными без WebGL.'],
-  'gran-auto': ['Сайт кузовного центра с услугами, сравнениями и ', 'оценкой по фото', ' в пяти шагах.'],
+  'techdelo-40': ['Каталог аренды спецтехники: ', 'фильтры, карточки техники и заявка', ' в одном понятном сценарии.'],
+  poluton: ['Сайт specialty coffee: бренд-система, ', 'меню и быстрый предзаказ', '.'],
+  'gran-auto': ['Сайт кузовного центра: услуги, примеры работ и ', 'предварительная оценка по фото', '.'],
 } as const;
 
 export const separators = {
@@ -30,10 +30,10 @@ export default function Home() {
           <PortfolioAscii />
           <p className="role-label">web designer + frontend developer</p>
           <p className="intro-copy">Проектирую и разрабатываю сайты для локального бизнеса и B2B-компаний.</p>
-          <p className="intro-copy intro-copy--dim">Исследую задачу, собираю <mark>структуру, дизайн и frontend</mark>: от Figma до адаптивной реализации.</p>
+          <p className="intro-copy intro-copy--dim">Исследую задачу и объединяю <mark>структуру, дизайн и разработку</mark>: от Figma до запуска адаптивного сайта.</p>
           <nav className="intro-links" aria-label="Контакты">
-            <a href={profile.telegram} target="_blank" rel="noreferrer">telegram</a>
-            <a href={profile.github} target="_blank" rel="noreferrer">github</a>
+            <a href={profile.contacts.telegram.href} target="_blank" rel="noreferrer">telegram</a>
+            <a href={profile.contacts.github.href} target="_blank" rel="noreferrer">github</a>
           </nav>
           <AsciiSeparator variant="robot" />
         </header>
@@ -87,16 +87,18 @@ export default function Home() {
 
           <section className="doc-section about-doc" id="about" data-section="about" aria-labelledby="about-title">
             <h2 id="about-title">{'// about'}</h2>
-            <p>Я <mark>Артём Исаев</mark>, web designer и frontend developer из Калуги. Исследую задачу, проектирую понятную структуру, собираю визуальную систему в Figma и реализую адаптивный frontend — от первой схемы до production build.</p>
+            <p>Я <mark>Артём Исаев</mark>, web designer и frontend developer из Калуги. Изучаю задачу, проектирую понятную структуру, собираю дизайн в Figma и запускаю адаптивный сайт.</p>
           </section>
 
           <AsciiSeparator variant="cat" />
 
           <section className="doc-section contact-doc" id="contact" data-section="contact" aria-labelledby="contact-title">
             <h2 id="contact-title">{'// contact'}</h2>
+            <p className="contact-doc__lead">Открыт к новым проектам. Быстрее всего отвечаю в Telegram.</p>
             <dl>
-              <div><dt>telegram</dt><dd><a href={profile.telegram} target="_blank" rel="noreferrer">t.me/wqeqadas ↗</a></dd></div>
-              <div><dt>github</dt><dd><a href={profile.github} target="_blank" rel="noreferrer">github.com/quenyu ↗</a></dd></div>
+              <div><dt>telegram</dt><dd><a href={profile.contacts.telegram.href} target="_blank" rel="noreferrer">{profile.contacts.telegram.label} ↗</a></dd></div>
+              <div><dt>github</dt><dd><a href={profile.contacts.github.href} target="_blank" rel="noreferrer">{profile.contacts.github.label} ↗</a></dd></div>
+              {profile.contacts.email ? <div><dt>email</dt><dd><a href={profile.contacts.email.href}>{profile.contacts.email.label}</a></dd></div> : null}
               <div><dt>based</dt><dd>{profile.location}, RU</dd></div>
             </dl>
           </section>

@@ -14,6 +14,7 @@ const projectSchema = z.object({
   category: z.string().min(4),
   year: z.number().int().min(2024),
   role: z.string().min(5),
+  format: z.literal('самостоятельный проект'),
   scope: z.array(z.string()).min(3),
   summary: z.string().min(40),
   context: z.string().min(80),
@@ -49,6 +50,7 @@ const projectData: Project[] = [
     category: 'Аренда спецтехники · B2B',
     year: 2026,
     role: 'Исследование · UX/UI · Frontend',
+    format: 'самостоятельный проект',
     scope: ['research', 'catalog UX', 'design system', 'Next.js', 'QA'],
     summary: 'Сайт регионального сервиса аренды: каталог из 12 машин, подбор от задачи, detail pages и структурированная заявка.',
     context: 'Региональным заказчикам важно ещё до звонка понять, какая техника подходит, во что входит смена и от чего зависит подача. Проект собран как цельный B2B-продукт для Калуги и выездов по ЦФО.',
@@ -66,8 +68,8 @@ const projectData: Project[] = [
     accessibility: ['Семантические страницы и последовательные заголовки.', 'Видимый focus, touch targets и keyboard navigation.', 'Axe WCAG A/AA: 0 блокирующих нарушений.'],
     testing: ['6/6 unit-тестов.', 'Production build: 26 маршрутов.', 'Lighthouse desktop 100/100/100/100; mobile 84/100/100/100.'],
     limitations: ['Backend и настоящая отправка заявок намеренно не подключены.', 'Figma-файл упомянут в исходном проекте, но подтверждённой публичной ссылки нет.'],
-    liveUrl: 'https://techdelo-40-demo.vercel.app',
-    githubUrl: 'https://github.com/quenyu/techdelo-40-demo',
+    liveUrl: 'https://techdelo-40.vercel.app',
+    githubUrl: 'https://github.com/quenyu/techdelo-40',
     figmaUrl: null,
     cover: { src: '/work/techdelo-40/cover.webp', alt: 'Главная страница сайта аренды спецтехники ТЕХДЕЛО 40 на desktop', width: 1200, height: 834 },
     mobile: { src: '/work/techdelo-40/mobile.webp', alt: 'Мобильный первый экран сайта ТЕХДЕЛО 40', width: 390, height: 844 },
@@ -85,6 +87,7 @@ const projectData: Project[] = [
     category: 'Specialty coffee · Lifestyle',
     year: 2026,
     role: 'Brand direction · UX/UI · 3D · Frontend',
+    format: 'самостоятельный проект',
     scope: ['brand system', 'editorial UI', 'motion', 'WebGL', 'preorder UX'],
     summary: 'Выразительный сайт specialty coffee с брендингом, интерактивным 3D-объектом, меню, визитом и заказом к выдаче.',
     context: 'Локальной кофейне нужно одновременно создать эмоциональное впечатление и за несколько секунд ответить на практические вопросы: что заказать, сколько это стоит и когда забрать.',
@@ -102,8 +105,8 @@ const projectData: Project[] = [
     accessibility: ['HTML остаётся полноценным без canvas.', 'Keyboard/focus, reduced motion и static fallback.', 'Axe: 0 serious/critical на ключевых маршрутах desktop и mobile.'],
     testing: ['4/4 unit-теста.', '10 статических production-маршрутов.', 'FCP 148–184 ms, CLS 0.0012/0.0007 в сохранённом local production audit.'],
     limitations: ['Предзаказ валидируется локально и не отправляется в реальную кассу.', 'Созданный Figma-файл не заявляется как полностью заполненный UI kit.'],
-    liveUrl: 'https://poluton-coffee-demo.vercel.app',
-    githubUrl: 'https://github.com/quenyu/poluton-coffee-demo',
+    liveUrl: 'https://poluton-coffee.vercel.app',
+    githubUrl: 'https://github.com/quenyu/poluton-coffee',
     figmaUrl: 'https://www.figma.com/design/0MmlhT2IiB8oBj5UvvjBkJ',
     cover: { src: '/work/poluton/cover.webp', alt: 'Первый экран сайта specialty coffee ПОЛУТОН на desktop', width: 1200, height: 834 },
     mobile: { src: '/work/poluton/mobile.webp', alt: 'Мобильный первый экран сайта ПОЛУТОН', width: 390, height: 844 },
@@ -121,6 +124,7 @@ const projectData: Project[] = [
     category: 'Кузовной центр · Local service',
     year: 2026,
     role: 'Research · Conversion UX · Frontend',
+    format: 'самостоятельный проект',
     scope: ['service catalog', 'before/after', 'estimate flow', 'accessibility', 'E2E'],
     summary: 'Сайт кузовного центра: услуги, сценарии ремонта, сравнение до/после и пятишаговая предварительная оценка по фото.',
     context: 'Владельцу автомобиля нужно понять вероятный путь ремонта до передачи контакта, а сервису — получить повреждение, деталь, автомобиль и полезные ракурсы без ложной фиксированной цены.',
@@ -158,32 +162,36 @@ const profileSchema = z.object({
   name: z.string(),
   location: z.string(),
   role: z.string(),
-  github: z.string().url(),
-  telegram: z.string().url(),
-  email: z.string().email().nullable(),
+  contacts: z.object({
+    github: z.object({ label: z.string().min(3), href: z.string().url() }),
+    telegram: z.object({ label: z.string().min(3), href: z.string().url() }),
+    email: z.object({ label: z.string().email(), href: z.string().startsWith('mailto:') }).nullable(),
+  }),
 });
 
 export const profile = profileSchema.parse({
   name: 'Артём Исаев',
   location: 'Калуга',
   role: 'Web designer + frontend developer',
-  github: 'https://github.com/quenyu',
-  telegram: 'https://t.me/wqeqadas',
-  email: null,
+  contacts: {
+    github: { label: 'github.com/quenyu', href: 'https://github.com/quenyu' },
+    telegram: { label: 't.me/wqeqadas', href: 'https://t.me/wqeqadas' },
+    email: null,
+  },
 });
 
 export const services = [
-  ['01', 'Лендинг / корпоративный сайт', 'Исследование, структура, дизайн в Figma и цельный интерфейс для услуги или компании.'],
-  ['02', 'Редизайн и UX-структура', 'Аудит текущего сайта, новая архитектура и аккуратный перенос полезного контента.'],
-  ['03', 'Frontend-реализация', 'Типизированная разработка интерфейса, состояний и содержательных маршрутов.'],
-  ['04', 'Адаптив и запуск', 'Проверка ключевых ширин, доступности, production build и развёртывание.'],
+  ['01', 'Лендинг / корпоративный сайт', 'Исследую задачу, собираю структуру, создаю дизайн в Figma и готовый интерфейс для услуги или компании.'],
+  ['02', 'Редизайн и UX-структура', 'Проверяю существующий сайт, перестраиваю навигацию и аккуратно переношу полезный контент.'],
+  ['03', 'Frontend-реализация', 'Собираю быстрый и надёжный сайт с рабочими страницами, формами и интерактивными состояниями.'],
+  ['04', 'Адаптив и запуск', 'Проверяю сайт на основных экранах, исправляю ошибки и публикую готовую версию.'],
 ] as const;
 
 export const process = [
-  ['01', 'research', 'Бизнес, аудитория, контекст и ограничения.'],
-  ['02', 'structure', 'Информационная архитектура и пользовательский путь.'],
-  ['03', 'design', 'Прототип, визуальная система и ключевые состояния.'],
-  ['04', 'build + launch', 'Responsive frontend, проверка и production.'],
+  ['01', 'research', 'Бизнес, аудитория, задача и ограничения.'],
+  ['02', 'structure', 'Структура сайта и путь пользователя.'],
+  ['03', 'design', 'Прототип, визуальная система и ключевые экраны.'],
+  ['04', 'build + launch', 'Адаптивная разработка, проверка и публикация.'],
 ] as const;
 
 export function getProject(slug: string) {

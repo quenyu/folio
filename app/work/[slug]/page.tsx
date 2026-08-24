@@ -61,6 +61,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
             <div><dt>year</dt><dd>{project.year}</dd></div>
             <div><dt>role</dt><dd>{project.role}</dd></div>
             <div><dt>scope</dt><dd>{project.scope.join(' · ')}</dd></div>
+            <div><dt>format</dt><dd>{project.format}</dd></div>
           </dl>
           <p className="case-disclosure">Исследование, структура, визуальная система и frontend выполнены Артёмом целиком; подробности и ограничения перечислены ниже.</p>
           <div className="case-actions">

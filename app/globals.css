@@ -317,6 +317,7 @@ main > .ascii-separator { margin: -44px 0 72px 8px; }
 }
 
 .contact-doc dl { margin: 0; }
+.contact-doc__lead { margin: -6px 0 22px; color: var(--ink); }
 
 .contact-doc dl > div {
   display: grid;
@@ -433,7 +434,7 @@ mark,
 .case-meta {
   margin: 48px 0 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   border-block: 1px solid var(--line);
 }
 
@@ -568,8 +569,8 @@ mark,
   .case-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .case-meta div { padding: 11px 10px; border-bottom: 1px solid var(--line); }
   .case-meta div:nth-child(2n) { border-right: 0; }
-  .case-meta div:nth-last-child(-n+2) { border-bottom: 0; }
-  .case-meta div:nth-child(3) { padding-left: 0; }
+  .case-meta div:nth-child(2n+1) { padding-left: 0; }
+  .case-meta div:last-child { grid-column: 1 / -1; border-right: 0; border-bottom: 0; }
   .case-cover { grid-template-columns: 1fr; padding-bottom: 58px; }
   .mobile-frame { width: min(56%, 250px); margin: -26% 5% 0 auto; }
   .case-block { grid-template-columns: 1fr; gap: 24px; padding: 58px 0; }

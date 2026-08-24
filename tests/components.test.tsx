@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { DocumentStatus, PortfolioAscii } from '../app/home-interactive';
+import Home from '../app/page';
 
 describe('accessible interactive components', () => {
   it('renders the ASCII switcher as a named button with screen-reader text', () => {
@@ -14,5 +15,19 @@ describe('accessible interactive components', () => {
     const markup = renderToStaticMarkup(<DocumentStatus />);
     expect(markup).toContain('role="status"');
     expect(markup).toContain('[artem@isaev]');
+  });
+
+  it('renders the approved commercial copy without homepage engineering jargon', () => {
+    const markup = renderToStaticMarkup(<Home />);
+    const text = markup.replace(/<[^>]+>/g, '');
+    expect(markup).toContain('<mark>структуру, дизайн и разработку</mark>');
+    expect(text).toContain('Каталог аренды спецтехники: фильтры, карточки техники и заявка в одном понятном сценарии.');
+    expect(text).toContain('Сайт specialty coffee: бренд-система, меню и быстрый предзаказ.');
+    expect(text).toContain('Сайт кузовного центра: услуги, примеры работ и предварительная оценка по фото.');
+    expect(text).toContain('Открыт к новым проектам. Быстрее всего отвечаю в Telegram.');
+    expect(text).not.toContain('detail pages');
+    expect(text).not.toContain('production-интерфейс');
+    expect(text).not.toContain('без WebGL');
+    expect(text).not.toContain('production build');
   });
 });

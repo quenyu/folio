@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     name: profile.name,
     jobTitle: profile.role,
     address: { '@type': 'PostalAddress', addressLocality: profile.location, addressCountry: 'RU' },
-    sameAs: [profile.github, profile.telegram],
+    sameAs: [profile.contacts.github.href, profile.contacts.telegram.href],
   };
 
   return (
