@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { process, profile, projects, services } from '../app/data';
-import { accentThemes, asciiCoreVariants, asciiVariantNames, asciiVariants } from '../app/home-interactive';
+import { accentThemes, asciiCoreVariants, asciiCycleLength, asciiVariantNames, asciiVariants } from '../app/home-interactive';
 import { separators } from '../app/page';
 import { calculateScrollProgress, nextAsciiIndex } from '../app/utils';
 
@@ -18,6 +18,14 @@ describe('portfolio content', () => {
     ]);
     expect(projects.every((project) => !project.liveUrl.includes('-demo') && !project.githubUrl.includes('-demo'))).toBe(true);
     expect(projects.every((project) => project.format === 'самостоятельный проект')).toBe(true);
+  });
+
+  it('keeps homepage project copy in the validated project records', () => {
+    expect(projects.map((project) => project.homeCopy.join(''))).toEqual([
+      'Каталог аренды спецтехники: фильтры, карточки техники и заявка в одном понятном сценарии.',
+      'Сайт specialty coffee: бренд-система, меню и быстрый предзаказ.',
+      'Сайт кузовного центра: услуги, примеры работ и предварительная оценка по фото.',
+    ]);
   });
 
   it('does not invent an email contact', () => {
@@ -64,6 +72,10 @@ describe('portfolio content', () => {
         if (core[index] !== ' ' && core[index] !== '\n') expect(variant[index]).not.toBe(' ');
       }
     }
+  });
+
+  it('derives the full ASCII/theme cycle rather than using an unexplained bound', () => {
+    expect(asciiCycleLength).toBe(12);
   });
 });
 

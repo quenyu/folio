@@ -2,12 +2,6 @@ import Link from 'next/link';
 import { DocumentStatus, PortfolioAscii } from './home-interactive';
 import { process, profile, projects, services } from './data';
 
-const projectCopy = {
-  'techdelo-40': ['Каталог аренды спецтехники: ', 'фильтры, карточки техники и заявка', ' в одном понятном сценарии.'],
-  poluton: ['Сайт specialty coffee: бренд-система, ', 'меню и быстрый предзаказ', '.'],
-  'gran-auto': ['Сайт кузовного центра: услуги, примеры работ и ', 'предварительная оценка по фото', '.'],
-} as const;
-
 export const separators = {
   robot: ['  _[]_', ' [o  o]', ' |====|'].join('\n'),
   rabbit: [' (\\_/)', ' (o.o)', 'c(")(")'].join('\n'),
@@ -43,7 +37,7 @@ export default function Home() {
             <h2 id="work-title">{'// selected work'}</h2>
             <div className="work-list">
               {projects.map((project) => {
-                const [lead, highlight, tail] = projectCopy[project.slug as keyof typeof projectCopy];
+                const [lead, highlight, tail] = project.homeCopy;
                 return (
                   <article className="work-entry" key={project.slug}>
                     <div className="work-entry__heading">

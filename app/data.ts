@@ -16,6 +16,7 @@ const projectSchema = z.object({
   role: z.string().min(5),
   format: z.literal('самостоятельный проект'),
   scope: z.array(z.string()).min(3),
+  homeCopy: z.tuple([z.string().min(1), z.string().min(1), z.string().min(1)]),
   summary: z.string().min(40),
   context: z.string().min(80),
   problem: z.string().min(80),
@@ -52,6 +53,7 @@ const projectData: Project[] = [
     role: 'Исследование · UX/UI · Frontend',
     format: 'самостоятельный проект',
     scope: ['research', 'catalog UX', 'design system', 'Next.js', 'QA'],
+    homeCopy: ['Каталог аренды спецтехники: ', 'фильтры, карточки техники и заявка', ' в одном понятном сценарии.'],
     summary: 'Сайт регионального сервиса аренды: каталог из 12 машин, подбор от задачи, detail pages и структурированная заявка.',
     context: 'Региональным заказчикам важно ещё до звонка понять, какая техника подходит, во что входит смена и от чего зависит подача. Проект собран как цельный B2B-продукт для Калуги и выездов по ЦФО.',
     problem: 'Большинство сайтов ниши смешивает SEO-текст, цены и повторяющиеся формы. Пользователь вынужден звонить до того, как сравнил модели, минимальный заказ и ограничения площадки.',
@@ -89,6 +91,7 @@ const projectData: Project[] = [
     role: 'Brand direction · UX/UI · 3D · Frontend',
     format: 'самостоятельный проект',
     scope: ['brand system', 'editorial UI', 'motion', 'WebGL', 'preorder UX'],
+    homeCopy: ['Сайт specialty coffee: бренд-система, ', 'меню и быстрый предзаказ', '.'],
     summary: 'Выразительный сайт specialty coffee с брендингом, интерактивным 3D-объектом, меню, визитом и заказом к выдаче.',
     context: 'Локальной кофейне нужно одновременно создать эмоциональное впечатление и за несколько секунд ответить на практические вопросы: что заказать, сколько это стоит и когда забрать.',
     problem: 'Hospitality-сайты часто выбирают только одну сторону: характер без удобного меню или утилитарность без собственной визуальной позиции. Здесь оба слоя собраны в один короткий путь.',
@@ -126,6 +129,7 @@ const projectData: Project[] = [
     role: 'Research · Conversion UX · Frontend',
     format: 'самостоятельный проект',
     scope: ['service catalog', 'before/after', 'estimate flow', 'accessibility', 'E2E'],
+    homeCopy: ['Сайт кузовного центра: услуги, примеры работ и ', 'предварительная оценка по фото', '.'],
     summary: 'Сайт кузовного центра: услуги, сценарии ремонта, сравнение до/после и пятишаговая предварительная оценка по фото.',
     context: 'Владельцу автомобиля нужно понять вероятный путь ремонта до передачи контакта, а сервису — получить повреждение, деталь, автомобиль и полезные ракурсы без ложной фиксированной цены.',
     problem: 'Локальные сайты перечисляют услуги, но редко связывают видимое повреждение с процессом и сравнимой работой. Переход сразу в мессенджер оставляет заявку неструктурированной.',
@@ -158,13 +162,15 @@ const projectData: Project[] = [
 
 export const projects = z.array(projectSchema).length(3).parse(projectData);
 
+const contactLinkSchema = z.object({ label: z.string().min(3), href: z.string().url() });
+
 const profileSchema = z.object({
   name: z.string(),
   location: z.string(),
   role: z.string(),
   contacts: z.object({
-    github: z.object({ label: z.string().min(3), href: z.string().url() }),
-    telegram: z.object({ label: z.string().min(3), href: z.string().url() }),
+    github: contactLinkSchema,
+    telegram: contactLinkSchema,
     email: z.object({ label: z.string().email(), href: z.string().startsWith('mailto:') }).nullable(),
   }),
 });

@@ -114,6 +114,12 @@ export const asciiCoreVariants = asciiDefinitions.map((definition) => buildArtwo
 export const baseAscii = asciiCoreVariants[0];
 export const asciiVariants = asciiDefinitions.map((definition) => buildArtwork(definition, false));
 
+function greatestCommonDivisor(left: number, right: number): number {
+  return right === 0 ? left : greatestCommonDivisor(right, left % right);
+}
+
+export const asciiCycleLength = (asciiVariants.length * accentThemes.length) / greatestCommonDivisor(asciiVariants.length, accentThemes.length);
+
 function ArtworkGrid({ art, className }: { art: string; className: string }) {
   const lines = art.split('\n');
   return (
@@ -129,7 +135,7 @@ export function PortfolioAscii() {
   const [step, setStep] = useState(0);
   const artIndex = step % asciiVariants.length;
   const themeIndex = (step + defaultThemeIndex) % accentThemes.length;
-  const switchVariant = () => setStep((current) => nextAsciiIndex(current, 12));
+  const switchVariant = () => setStep((current) => nextAsciiIndex(current, asciiCycleLength));
 
   useEffect(() => {
     document.documentElement.style.setProperty('--ac', accentThemes[themeIndex]);
