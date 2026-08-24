@@ -42,7 +42,7 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
     <>
       <a className="skip-link" href="#case-content">Перейти к содержанию</a>
       <header className="site-header case-header">
-        <Link className="terminal-id" href="/" prefetch={false}>[artem@portfolio]</Link>
+        <Link className="terminal-id" href="/" prefetch={false}>artem@isaev ~ % cd /</Link>
         <nav aria-label="Навигация по кейсу">
           <Link href="/#work" prefetch={false}>← все работы</Link>
           <a href="#gallery">экраны</a>

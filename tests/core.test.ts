@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { process, profile, projects, services } from '../app/data';
+import { accentThemes, asciiVariants, baseAscii } from '../app/home-interactive';
+import { separators } from '../app/page';
 import { calculateScrollProgress, nextAsciiIndex } from '../app/utils';
 
 describe('portfolio content', () => {
@@ -23,6 +25,29 @@ describe('portfolio content', () => {
   it('keeps the homepage sections compact', () => {
     expect(services).toHaveLength(4);
     expect(process.map((step) => step[1])).toEqual(['research', 'structure', 'design', 'build + launch']);
+  });
+
+  it('uses the required accent order with muted coral as the default offset', () => {
+    expect(accentThemes).toEqual(['#8AAEE8', '#E6C44C', '#E18585', '#8FD79E', '#B585F2', '#D2D6E0']);
+  });
+
+  it('preserves the three required separators exactly', () => {
+    expect(separators.robot).toBe('  _[]_\n [o  o]\n |====|');
+    expect(separators.rabbit).toBe(' (\\_/)\n (o.o)\nc(")(")');
+    expect(separators.cat).toBe(' /\\v/\\\n(=o.o=)\n (   )');
+  });
+
+  it('keeps every ASCII variant rectangular with an intact core mask', () => {
+    const baseLines = baseAscii.split('\n');
+    expect(new Set(baseLines.map((line) => line.length))).toHaveLength(1);
+    for (const variant of asciiVariants) {
+      const lines = variant.split('\n');
+      expect(new Set(lines.map((line) => line.length))).toHaveLength(1);
+      expect(lines).toHaveLength(baseLines.length);
+      for (let index = 0; index < baseAscii.length; index += 1) {
+        if (baseAscii[index] !== ' ' && baseAscii[index] !== '\n') expect(variant[index]).not.toBe(' ');
+      }
+    }
   });
 });
 

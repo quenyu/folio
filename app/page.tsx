@@ -8,13 +8,14 @@ const projectCopy = {
   'gran-auto': ['Сайт кузовного центра с услугами, сравнениями и ', 'оценкой по фото', ' в пяти шагах.'],
 } as const;
 
-function AsciiBreak({ variant = 'cat' }: { variant?: 'cat' | 'key' | 'signal' }) {
-  const art = {
-    cat: ' /\\_/\\\n( o.o )\n > ^ <',
-    key: '  ┌─┐\n──┤ │\n  └─┘',
-    signal: '  .  \n .|. \n--+--\n  |',
-  }[variant];
-  return <pre className="ascii-break" aria-hidden="true">{art}</pre>;
+export const separators = {
+  robot: ['  _[]_', ' [o  o]', ' |====|'].join('\n'),
+  rabbit: [' (\\_/)', ' (o.o)', 'c(")(")'].join('\n'),
+  cat: [' /\\v/\\', '(=o.o=)', ' (   )'].join('\n'),
+} as const;
+
+function AsciiSeparator({ variant }: { variant: keyof typeof separators }) {
+  return <pre className="ascii-separator" aria-hidden="true">{separators[variant]}</pre>;
 }
 
 export default function Home() {
@@ -29,12 +30,12 @@ export default function Home() {
           <PortfolioAscii />
           <p className="role-label">web designer + frontend developer</p>
           <p className="intro-copy">Проектирую и разрабатываю сайты для локального бизнеса и B2B-компаний.</p>
-          <p className="intro-copy intro-copy--dim">Исследую задачу, собираю <mark>структуру, дизайн и frontend</mark>, а затем довожу интерфейс до запуска.</p>
+          <p className="intro-copy intro-copy--dim">Исследую задачу, собираю <mark>структуру, дизайн и frontend</mark>: от Figma до адаптивной реализации.</p>
           <nav className="intro-links" aria-label="Контакты">
             <a href={profile.telegram} target="_blank" rel="noreferrer">telegram</a>
             <a href={profile.github} target="_blank" rel="noreferrer">github</a>
           </nav>
-          <AsciiBreak />
+          <AsciiSeparator variant="robot" />
         </header>
 
         <main id="content">
@@ -57,8 +58,6 @@ export default function Home() {
               })}
             </div>
           </section>
-
-          <AsciiBreak variant="key" />
 
           <section className="doc-section" id="services" data-section="services" aria-labelledby="services-title">
             <h2 id="services-title">{'// services'}</h2>
@@ -84,12 +83,14 @@ export default function Home() {
             </ol>
           </section>
 
-          <AsciiBreak variant="signal" />
+          <AsciiSeparator variant="rabbit" />
 
           <section className="doc-section about-doc" id="about" data-section="about" aria-labelledby="about-title">
             <h2 id="about-title">{'// about'}</h2>
             <p>Я <mark>Артём Исаев</mark>, web designer и frontend developer из Калуги. Исследую задачу, проектирую понятную структуру, собираю визуальную систему в Figma и реализую адаптивный frontend — от первой схемы до production build.</p>
           </section>
+
+          <AsciiSeparator variant="cat" />
 
           <section className="doc-section contact-doc" id="contact" data-section="contact" aria-labelledby="contact-title">
             <h2 id="contact-title">{'// contact'}</h2>

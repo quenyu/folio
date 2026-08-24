@@ -5,7 +5,7 @@ import { DocumentStatus, PortfolioAscii } from '../app/home-interactive';
 describe('accessible interactive components', () => {
   it('renders the ASCII switcher as a named button with screen-reader text', () => {
     const markup = renderToStaticMarkup(<PortfolioAscii />);
-    expect(markup).toContain('aria-label="Сменить ASCII-композицию и цветовую тему. Вариант 1 из 4, тема 1 из 6"');
+    expect(markup).toContain('aria-label="Сменить ASCII-композицию и цветовую тему. Вариант 1 из 4, тема 3 из 6"');
     expect(markup).toContain('Артём Исаев');
     expect(markup).toContain('portfolio-ascii');
   });

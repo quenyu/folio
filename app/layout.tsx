@@ -6,12 +6,14 @@ import { profile } from './data';
 const mono = JetBrains_Mono({
   variable: '--font-mono',
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '600', '700'],
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://artem-isaev-portfolio.malafar-ida78755z0x.chatgpt.site',
+  ),
   title: {
     default: 'Артём Исаев — web designer + frontend developer',
     template: '%s · Артём Исаев',
@@ -47,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="ru">
-      <body className={mono.variable}>
+      <body className={`${mono.className} ${mono.variable}`}>
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personData) }} />
       </body>

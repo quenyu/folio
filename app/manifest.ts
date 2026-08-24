@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Web designer + frontend developer из Калуги.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#080808',
-    theme_color: '#080808',
+    background_color: '#040406',
+    theme_color: '#040406',
     lang: 'ru',
     icons: [{ src: '/favicon.png', sizes: '64x64', type: 'image/png' }],
   };

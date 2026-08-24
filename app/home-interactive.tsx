@@ -3,9 +3,18 @@
 import { useEffect, useState } from 'react';
 import { calculateScrollProgress, nextAsciiIndex } from './utils';
 
-const accentThemes = ['#E18585', '#8AAEE8', '#E6C44C', '#8FD79E', '#B585F2', '#D2D6E0'] as const;
+export const accentThemes = [
+  '#8AAEE8',
+  '#E6C44C',
+  '#E18585',
+  '#8FD79E',
+  '#B585F2',
+  '#D2D6E0',
+] as const;
 
-const glyphs: Record<string, string[]> = {
+const defaultThemeIndex = 2;
+
+const glyphs: Record<string, readonly string[]> = {
   A: ['01110', '11011', '11011', '11111', '11011', '11011', '11011'],
   R: ['11110', '11011', '11011', '11110', '11100', '11010', '11011'],
   T: ['11111', '00110', '00110', '00110', '00110', '00110', '00110'],
@@ -16,42 +25,86 @@ const glyphs: Record<string, string[]> = {
   V: ['11011', '11011', '11011', '11011', '11011', '01110', '00100'],
 };
 
-const treatments = [
-  ['█', '▓', '▒'],
-  ['▓', '▒', '░'],
-  ['▀', '▄', '▐'],
-  ['▌', '▐', '█'],
-] as const;
+type Treatment = {
+  core: (row: number, column: number, letter: number) => string;
+  dust: readonly [string, string, string];
+  seed: number;
+};
 
-function renderWord(word: string, variant: number) {
-  const [solid, edge, dust] = treatments[variant];
-  return Array.from({ length: 7 }, (_, row) => {
-    const offset = variant === 1 ? ' '.repeat((row + 1) % 3) : variant === 3 ? ' '.repeat(row % 2) : '';
-    const letters = [...word].map((letter, letterIndex) =>
-      glyphs[letter][row]
-        .split('')
-        .map((cell, column) => {
-          if (cell === '0') return '   ';
-          const eroded = (row * 7 + column * 3 + letterIndex * 5 + variant) % 11 === 0;
-          const shaded = row > 4 || column === 4;
-          const character = eroded ? dust : shaded ? edge : solid;
-          return character.repeat(3);
-        })
-        .join(''),
-    );
-    const trail = variant === 0 && row > 2 ? dust.repeat(Math.max(0, row - 3)) : '';
-    return `${offset}${letters.join(' ')}${trail}`;
-  }).join('\n');
+const treatments: readonly Treatment[] = [
+  {
+    core: (row, column) => row < 2 || column === 0 ? '███' : '▓▓▓',
+    dust: ['░  ', ' ░ ', '  ░'],
+    seed: 3,
+  },
+  {
+    core: (row, column) => (row + column) % 2 === 0 ? '▀██' : '▄██',
+    dust: ['▒  ', ' ▒ ', '  ▒'],
+    seed: 11,
+  },
+  {
+    core: (row, column) => (row + column) % 2 === 0 ? '█▓█' : '▓█▓',
+    dust: ['▒  ', ' ▒ ', '  ▒'],
+    seed: 19,
+  },
+  {
+    core: (row, column, letter) => (row + column + letter) % 3 === 0 ? '██▒' : '▒██',
+    dust: ['░  ', ' ░ ', '  ░'],
+    seed: 29,
+  },
+];
+
+function hasCoreNeighbor(mask: readonly string[], row: number, column: number) {
+  return [
+    [row - 1, column],
+    [row + 1, column],
+    [row, column - 1],
+    [row, column + 1],
+  ].some(([nextRow, nextColumn]) => mask[nextRow]?.[nextColumn] === '1');
 }
 
-const asciiVariants = Array.from({ length: 4 }, (_, variant) =>
-  `${renderWord('ARTEM', variant)}\n${renderWord('ISAEV', variant)}`,
-);
+function renderWord(word: string, treatment: Treatment | null) {
+  const letterGap = '   ';
+  return Array.from({ length: 7 }, (_, row) =>
+    [...word].map((letter, letterIndex) => {
+      const mask = glyphs[letter];
+      return mask[row].split('').map((cell, column) => {
+        if (cell === '1') return treatment?.core(row, column, letterIndex) ?? '███';
+        if (!treatment || !hasCoreNeighbor(mask, row, column)) return '   ';
+        const hash = row * 17 + column * 13 + letterIndex * 7 + treatment.seed;
+        return hash % 7 === 0 ? treatment.dust[hash % treatment.dust.length] : '   ';
+      }).join('');
+    }).join(letterGap),
+  );
+}
+
+function buildArtwork(treatment: Treatment | null) {
+  const top = renderWord('ARTEM', treatment);
+  const bottom = renderWord('ISAEV', treatment);
+  const rowWidth = top[0].length;
+  const lines = [...top, ' '.repeat(rowWidth), ...bottom];
+  if (lines.some((line) => line.length !== rowWidth)) throw new Error('ASCII artwork rows must have equal length');
+  return lines.join('\n');
+}
+
+export const baseAscii = buildArtwork(null);
+export const asciiVariants = treatments.map((treatment) => buildArtwork(treatment));
+
+function ArtworkGrid({ art, className }: { art: string; className: string }) {
+  const lines = art.split('\n');
+  return (
+    <span className={className} aria-hidden="true">
+      {lines.flatMap((line, row) => [...line].map((character, column) => character === ' ' ? null : (
+        <span key={`${row}-${column}`} style={{ gridColumnStart: column + 1, gridRowStart: row + 1 }}>{character}</span>
+      )))}
+    </span>
+  );
+}
 
 export function PortfolioAscii() {
   const [step, setStep] = useState(0);
   const artIndex = step % asciiVariants.length;
-  const themeIndex = step % accentThemes.length;
+  const themeIndex = (step + defaultThemeIndex) % accentThemes.length;
   const switchVariant = () => setStep((current) => nextAsciiIndex(current, 12));
 
   useEffect(() => {
@@ -72,7 +125,7 @@ export function PortfolioAscii() {
       }}
       aria-label={`Сменить ASCII-композицию и цветовую тему. Вариант ${artIndex + 1} из ${asciiVariants.length}, тема ${themeIndex + 1} из ${accentThemes.length}`}
     >
-      <pre aria-hidden="true">{asciiVariants[artIndex]}</pre>
+      <ArtworkGrid key={artIndex} art={asciiVariants[artIndex]} className="portfolio-ascii__grid portfolio-ascii__effect" />
       <span className="sr-only">Артём Исаев</span>
     </button>
   );

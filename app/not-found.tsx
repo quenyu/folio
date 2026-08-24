@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <main className="not-found">
-      <p className="command">artem@portfolio ~ % locate page</p>
+      <p className="command">artem@isaev ~ % locate page</p>
       <pre aria-hidden="true">{String.raw`┌──────────────┐
 │  404 / NULL  │
 └──────────────┘`}</pre>
