@@ -12,7 +12,10 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://artem-isaev-portfolio.malafar-ida78755z0x.chatgpt.site',
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : 'https://artem-isaev-portfolio.malafar-ida78755z0x.chatgpt.site'),
   ),
   title: {
     default: 'Артём Исаев — web designer + frontend developer',
